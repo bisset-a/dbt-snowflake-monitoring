@@ -1,5 +1,6 @@
 {{ config(
-    materialized='table'
+    materialized='table',
+    enabled=not(var('uses_org_view', false))
 ) }}
 
 select

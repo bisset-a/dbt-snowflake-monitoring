@@ -8,6 +8,11 @@ stop_threshold as (
 
 warehouse_snapshots_base as (
     select
+        {% if var('uses_org_view', false) %}
+        organization_name,
+        account_name,
+        account_locator,
+        {% endif %}
         warehouse_id,
         warehouse_size,
         warehouse_name,
@@ -23,6 +28,11 @@ order by start_time) as prev_warehouse_name
 
 warehouse_snapshots as (
     select
+        {% if var('uses_org_view', false) %}
+        organization_name,
+        account_name,
+        account_locator,
+        {% endif %}
         warehouse_id,
         warehouse_name,
         warehouse_size,
@@ -36,6 +46,11 @@ order by timestamp) as _valid_to
 )
 
 select
+    {% if var('uses_org_view', false) %}
+    warehouse_snapshots.organization_name,
+    warehouse_snapshots.account_name,
+    warehouse_snapshots.account_locator,
+    {% endif %}
     warehouse_snapshots.warehouse_id,
     warehouse_snapshots.warehouse_name,
     warehouse_snapshots.warehouse_size,

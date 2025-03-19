@@ -1,6 +1,7 @@
 {{ config(
     materialized='incremental',
     unique_key=['start_time', 'task_id'],
+    enabled=not(var('uses_org_view', false))
 ) }}
 
 select

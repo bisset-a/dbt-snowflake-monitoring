@@ -1,9 +1,17 @@
 {{ config(
-    materialized='incremental', 
-    unique_key=['start_time', 'warehouse_id'],
+    materialized='incremental',
+    unique_key=
+        ['start_time', 'account_locator', 'warehouse_id'] if var('uses_org_view', false) else
+        ['start_time', 'warehouse_id']
 ) }}
 
 select
+    {% if var('uses_org_view', false) %}
+    organization_name,
+    account_name,
+    account_locator,
+    service_type,
+    {% endif %}
     start_time,
     end_time,
     warehouse_id,
